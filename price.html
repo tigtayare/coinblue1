@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Page with Modal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #0c0606;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 9px #999;
+            margin: 10px;
+        }
+
+        .button:hover {
+            background-color: #3e8e41;
+        }
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .modal-button.watch {
+            background-color: #008CBA;
+            color: white;
+        }
+
+        .modal-button.prize {
+            background-color: #f44336;
+            color: white;
+            cursor: not-allowed; /* Disable the button initially */
+        }
+
+        .modal-button.prize.enabled {
+            cursor: pointer; /* Enable the button after the timer */
+        }
+
+        .modal-button.back {
+            background-color: #555; /* Background color for Back button */
+            color: #fff; /* Text color */
+        }
+
+        .modal-button.back:hover {
+            background-color: #333; /* Darker background on hover */
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .celebration img {
+            width: 100px;
+        }
+
+        .celebration.show {
+            display: block;
+        }
+
+        .celebration .back-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #555;
+            color: white;
+        }
+
+        .celebration .back-button:hover {
+            background-color: #333;
+        }
+
+        .notification {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .notification.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="#" class="button" id="openModal"><i class="fas fa-gift"></i> Open Modal</a>
+    <button class="button back" id="backButton">Back</button>
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <i class="fas fa-gift fa-3x"></i>
+        <p>Choose an action:</p>
+        <button class="modal-button watch" id="watchButton">Watch</button>
+        <button class="modal-button prize" id="prizeButton">Take Your Prize</button>
+    </div>
+</div>
+
+<!-- Celebration Div -->
+<div id="celebration" class="celebration">
+    <p>Congratulations! You've received $10,000!</p>
+    <img src="2.png" alt="Coins">
+    <button class="back-button" id="celebrationBackButton">Back</button>
+</div>
+
+<!-- Notification Div -->
+<div id="notification" class="notification">
+    <p>WAXAAD QAADATAY ABAALMARIN TAN. Fadlan soo laabo 24 saacadood ka dib si aad mar kale u isticmaasho.</p>
+</div>
+
+<script>
+    // Get the modal and other elements
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("openModal");
+    var span = document.getElementsByClassName("close")[0];
+    var watchButton = document.getElementById("watchButton");
+    var prizeButton = document.getElementById("prizeButton");
+    var backButton = document.getElementById("backButton");
+    var celebration = document.getElementById("celebration");
+    var notification = document.getElementById("notification");
+    var celebrationBackButton = document.getElementById("celebrationBackButton");
+
+    // Timer and tracking variables
+    var timer;
+    var userCoins = 0;
+    var username = localStorage.getItem('username') || "user" + Math.floor(Math.random() * 1000); // Assign random username if not set
+    var lastPrizeTime = localStorage.getItem('lastPrizeTime_' + username);
+
+    // Function to display user's current coins
+    function displayUserCoins() {
+        console.log("Current Coins: $" + userCoins);
+    }
+
+    // Function to check if 24 hours have passed
+    function canTakePrize() {
+        if (lastPrizeTime) {
+            var currentTime = new Date().getTime();
+            var timeElapsed = currentTime - lastPrizeTime;
+            return timeElapsed >= 86400000; // 24 hours in milliseconds
+        }
+        return true; // No last prize time set means prize can be taken
+    }
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+        clearTimeout(timer);
+    }
+
+    // When the user clicks the Back button, redirect to another page
+    backButton.onclick = function() {
+        window.location.href = 'hamster-combat.html'; // Change to your target page
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            clearTimeout(timer);
+        }
+    }
+
+    // When the user clicks the Watch button, start the timer
+    watchButton.onclick = function() {
+        prizeButton.classList.remove("enabled");
+        prizeButton.disabled = true;
+        timer = setTimeout(function() {
+            prizeButton.classList.add("enabled");
+            prizeButton.disabled = false;
+        }, 60000); // 1 minute
+    }
+
+    // When the user clicks the Take Your Prize button
+    prizeButton.onclick = function() {
+        if (prizeButton.classList.contains("enabled")) {
+            if (canTakePrize()) {
+                userCoins += 10000;
+                displayUserCoins();
+                celebration.classList.add("show");
+                setTimeout(function() {
+                    celebration.classList.remove("show");
+                }, 50000); // 50 seconds
+                notification.classList.add("show");
+                setTimeout(function() {
+                    notification.classList.remove("show");
+                }, 10000); // 10 seconds
+                localStorage.setItem('lastPrizeTime_' + username, new Date().getTime());
+            } else {
+                alert("You can only take your prize once every 24 hours.");
+            }
+        } else {
+            alert("You need to watch for 1 minute first!");
+        }
+    }
+
+    // When the user clicks the Back button in the celebration div
+    celebrationBackButton.onclick = function() {
+        celebration.classList.remove("show");
+    }
+
+    // Optionally, save username to localStorage if it's a new user
+    if (!localStorage.getItem('username')) {
+        localStorage.setItem('username', username);
+    }
+</script>
+
+</body>
+</html>

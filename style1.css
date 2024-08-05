@@ -1,0 +1,181 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #333;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 600px; /* Increased max-width */
+  background: #333;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header img {
+  border-radius: 70%;
+  width: 80px; /* Increased width */
+  height: 80px; /* Increased height */
+}
+
+.header div {
+  flex-grow: 10;
+  text-align: left;
+  margin-left: 10px; /* Reduced margin */
+}
+
+.header div h2 {
+  margin: 10px 0; /* Reduced margin */
+  font-size: 1rem; /* Adjusted font-size */
+}
+
+.header div p {
+  margin: 0;
+  font-size: 0.875rem; /* Adjusted font-size */
+  color: #ff9900;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0; /* Reduced margin */
+}
+
+.info div {
+  background: #580303;
+  border-radius: 10px;
+  padding: 10px; /* Reduced padding */
+  width: 45%; /* Adjusted width */
+  box-sizing: content-box;
+}
+
+.info div p {
+  margin: 10px 0; /* Reduced margin */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info div p img {
+  width: 60px; /* Increased width */
+  height: 50px; /* Increased height */
+  margin-right: 5px; /* Reduced margin */
+}
+
+.info div p:first-child {
+  font-size: 1.2rem; /* Adjusted font-size */
+  color: #ccc;
+}
+
+.info div p:last-child {
+  font-size: 1.5rem; /* Adjusted font-size */
+  color: #ff9900;
+}
+
+.score {
+  font-size: 2rem; /* Increased font-size */
+  margin: 10px 0; /* Reduced margin */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score img {
+  width: 40px; /* Increased width */
+  height: 40px; /* Increased height */
+  margin-right: 5px; /* Reduced margin */
+}
+
+.hamster {
+  width: 400px; /* Increased width */
+  height: 400px; /* Increased height */
+  border-radius: 50%;
+  background: #021841;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.hamster:active {
+  transform: scale(0.85); /* Adjusted scale */
+}
+
+.hamster img {
+  width: 200%; /* Adjusted width */
+  border-radius: 50%;
+}
+
+.level {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px; /* Reduced margin */
+}
+
+.level p {
+  margin: 0;
+  font-size: 1rem; /* Adjusted font-size */
+}
+
+.level .progress-bar {
+  width: 80%; /* Increased width */
+  background: #555;
+  height: 15px; /* Increased height */
+  border-radius: 7px; /* Adjusted border-radius */
+  overflow: hidden;
+  position: relative;
+}
+
+.level .progress-bar div {
+  background: #00cc00;
+  height: 100%;
+  width: 0;
+  position: absolute;
+  transition: width 0.3s;
+}
+
+@media (max-width: 480px) {
+  .header img {
+      width: 80px;
+      height: 60px;
+  }
+  .header div h2 {
+      font-size: 1rem; /* Adjusted font-size */
+  }
+  .header div p {
+      font-size: 0.75rem; /* Adjusted font-size */
+  }
+  .info div {
+      width: 45%; /* Adjusted width */
+  }
+  .score {
+      font-size: 1.5rem; /* Adjusted font-size */
+  }
+  .score img {
+      width: 35px; /* Adjusted width */
+      height: 30px; /* Adjusted height */
+  }
+  .hamster {
+      width: 300px; /* Adjusted width */
+      height: 300px; /* Adjusted height */
+  }
+  .level p {
+      font-size: 0.875rem; /* Adjusted font-size */
+  }
+}

@@ -1,0 +1,108 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #4CAF50;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Header styles */
+.header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.header button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.header button img {
+    width: 40px;
+    height: auto;
+}
+
+/* Main content styles */
+main {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #4CAF50;
+}
+
+#links {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#links a {
+    margin: 10px;
+}
+
+#links img {
+    width: 80px;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+#links img:hover {
+    transform: scale(1.1);
+}
+
+/* Status section */
+.status {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.hamster {
+    cursor: pointer;
+}
+
+.hamster img {
+    width: 40px;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.hamster img:hover {
+    transform: scale(1.1);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #links a {
+        margin: 5px 0;
+    }
+
+    .header button img {
+        width: 30px;
+    }
+}
